@@ -1,0 +1,9 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Invoxa.App/Invoxa.App.csproj" />
+    <Project Path="src/Invoxa/Invoxa.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Invoxa.Tests/Invoxa.Tests.csproj" />
+  </Folder>
+</Solution>
