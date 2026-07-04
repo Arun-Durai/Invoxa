@@ -49,7 +49,7 @@ Tasks are ordered so each build builds on the last. **Do not skip ahead** — la
 |-------|-------|
 | **Type** | Story |
 | **Priority** | High |
-| **Status** | To Do |
+| **Status** | Done |
 | **Branch** | `feature/INVOXA-201-highest-discount-wins` |
 | **Depends on** | Phase 1 |
 
@@ -61,10 +61,10 @@ When more than one discount policy applies to a cart, apply **only the single di
 
 ### Acceptance criteria
 
-- [ ] Given two or more applicable discount policies, only one `AppliedDiscount` appears on the invoice
-- [ ] The applied discount is the one with the **largest amount** (not percentage)
-- [ ] Unit tests cover: premium vs seasonal (once seasonal exists), equal amounts edge case
-- [ ] README / task doc updated to mark story Done
+- [x] Given two or more applicable discount policies, only one `AppliedDiscount` appears on the invoice
+- [x] The applied discount is the one with the **largest amount** (not percentage)
+- [x] Unit tests cover: premium vs seasonal (once seasonal exists), equal amounts edge case
+- [x] README / task doc updated to mark story Done
 
 ### Technical notes
 

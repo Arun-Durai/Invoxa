@@ -12,6 +12,11 @@ public sealed class DiscountEngine
         _policies = policies.ToList();
     }
 
+    /// <summary>
+    /// Evaluates all registered discount policies and returns the single best offer.
+    /// When multiple policies apply, only the one with the highest monetary amount is used — discounts never stack.
+    /// If two amounts are equal, the policy registered first in the list wins.
+    /// </summary>
     public AppliedDiscount? Resolve(PricingContext context)
     {
         AppliedDiscount? best = null;
