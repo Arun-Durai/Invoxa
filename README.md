@@ -4,7 +4,7 @@ A C# billing system that calculates invoices with discounts and tax, then prints
 
 Uses **layered architecture**, **Strategy-pattern** policies, **SOLID**-friendly seams, and **constructor injection** so new discounts and output formats plug in without rewriting the calculator. See [Architecture & OOP concepts](#architecture--oop-concepts).
 
-**Current status:** Phase 1 complete.
+**Current status:** Phase 1 complete on `main`. Phase 2 in progress on [`phase-2`](docs/PHASE2-TASKS.md).
 
 ---
 
