@@ -25,7 +25,8 @@ public sealed class InvoiceCalculator
         var taxableBase = Money.Round(subtotal - discountAmount);
 
         var tax = _taxPolicy.Calculate(taxableBase, context);
-        var grandTotal = Money.Round(taxableBase + tax.Amount);
+        var shipping = ShippingCalculator.Calculate(cart.Customer);
+        var grandTotal = Money.Round(taxableBase + tax.Amount + shipping.Amount);
 
         var lines = cart.LineItems
             .Select(item => new InvoiceLine(item.Name, item.UnitPrice, item.Quantity, item.LineTotal))
@@ -37,6 +38,7 @@ public sealed class InvoiceCalculator
             subtotal,
             discount,
             tax,
+            shipping,
             grandTotal,
             asOf);
     }

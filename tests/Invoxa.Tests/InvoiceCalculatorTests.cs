@@ -15,7 +15,7 @@ public class InvoiceCalculatorTests
             new FlatRateTaxPolicy(0.08m));
 
     [Fact]
-    public void RegularCustomer_NoDiscount_TaxOnSubtotal()
+    public void RegularCustomer_NoDiscount_TaxOnSubtotal_PaysShipping()
     {
         var cart = new Cart(
             new Customer("Test User", CustomerType.Regular),
@@ -26,11 +26,12 @@ public class InvoiceCalculatorTests
         Assert.Equal(200m, invoice.Subtotal);
         Assert.Null(invoice.Discount);
         Assert.Equal(16m, invoice.Tax.Amount);
-        Assert.Equal(216m, invoice.GrandTotal);
+        Assert.Equal(50m, invoice.Shipping.Amount);
+        Assert.Equal(266m, invoice.GrandTotal);
     }
 
     [Fact]
-    public void PremiumCustomer_GetsTenPercentDiscount_TaxOnDiscountedAmount()
+    public void PremiumCustomer_GetsTenPercentDiscount_TaxOnDiscountedAmount_PaysShipping()
     {
         var cart = new Cart(
             new Customer("Premium User", CustomerType.Premium),
@@ -42,7 +43,8 @@ public class InvoiceCalculatorTests
         Assert.NotNull(invoice.Discount);
         Assert.Equal(20m, invoice.Discount.Amount);
         Assert.Equal(14.40m, invoice.Tax.Amount);
-        Assert.Equal(194.40m, invoice.GrandTotal);
+        Assert.Equal(50m, invoice.Shipping.Amount);
+        Assert.Equal(244.40m, invoice.GrandTotal);
     }
 
     [Fact]
@@ -59,7 +61,7 @@ public class InvoiceCalculatorTests
 
         Assert.Equal(190m, invoice.Subtotal);
         Assert.Equal(2, invoice.Lines.Count);
-        Assert.Equal(205.20m, invoice.GrandTotal);
+        Assert.Equal(255.20m, invoice.GrandTotal);
     }
 
     [Fact]

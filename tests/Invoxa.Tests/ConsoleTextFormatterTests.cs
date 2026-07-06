@@ -14,7 +14,8 @@ public class ConsoleTextFormatterTests
             subtotal: 200m,
             discount: new AppliedDiscount("premium-customer", "Premium member (10% off)", 20m),
             tax: new TaxLine("Sales tax", 0.08m, 14.40m),
-            grandTotal: 194.40m,
+            shipping: new ShippingLine("Shipping", 50m),
+            grandTotal: 244.40m,
             generatedAt: new DateTime(2026, 7, 3, 10, 0, 0));
 
         var output = new ConsoleTextFormatter().Format(invoice);
@@ -24,6 +25,7 @@ public class ConsoleTextFormatterTests
         Assert.Contains("Test Item", output);
         Assert.Contains("Subtotal", output);
         Assert.Contains("Premium member (10% off)", output);
+        Assert.Contains("Shipping", output);
         Assert.Contains("GRAND TOTAL", output);
     }
 }

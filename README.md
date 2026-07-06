@@ -4,7 +4,7 @@ A C# billing system that calculates invoices with discounts and tax, then prints
 
 Uses **layered architecture**, **Strategy-pattern** policies, **SOLID**-friendly seams, and **constructor injection** so new discounts and output formats plug in without rewriting the calculator. See [Architecture & OOP concepts](#architecture--oop-concepts).
 
-**Current status:** Phase 1 complete on `main`. Phase 2 in progress on [`phase-2`](docs/PHASE2-TASKS.md).
+**Current status:** Phase 2 complete on `main` and `phase-2`. See [`docs/PHASE2-TASKS.md`](docs/PHASE2-TASKS.md).
 
 ---
 
@@ -29,15 +29,28 @@ Uses **layered architecture**, **Strategy-pattern** policies, **SOLID**-friendly
 | Regular | None |
 | Premium | 10% off subtotal |
 
-### Phase 2 — Planned (not yet built)
+### Phase 2 — Complete
 
-Add one at a time; refactor as needed before moving to the next.
+| # | Feature | Status |
+|---|---------|--------|
+| 1 | Highest discount wins (no stacking) | Done |
+| 2 | December seasonal 20% off | Done |
+| 3 | Premium+ (15% off + free ₹50 shipping) | Done |
+| 4 | Buy 2 Get 1 Free on qualifying items | Done |
+| 5 | JSON invoice export | Done |
 
-1. **December seasonal discount** — 20% off subtotal, only in December, any customer type.
-2. **Premium+ customer type** — 15% discount + waive flat ₹50 shipping fee.
-3. **Buy 2 Get 1 Free** — on specific items, independent of customer type.
-4. **JSON export** — invoice exportable as JSON for an external accounting API.
-5. **Single best discount** — when multiple discounts apply, only the **highest value** discount is used (not stacked).
+**Customer types:**
+
+| Type | Discount | Shipping |
+|------|----------|----------|
+| Regular | Best applicable policy only | ₹50 flat fee |
+| Premium | 10% off subtotal (if best) | ₹50 flat fee |
+| Premium+ | 15% off subtotal (if best) | Free |
+
+**Other Phase 2 rules:**
+- December 20% off subtotal (any customer, if best discount)
+- B2G1 on qualifying `productId` items (1 free unit per 3 purchased)
+- Console text + JSON output formats
 
 ### Phase 3 — Stretch
 

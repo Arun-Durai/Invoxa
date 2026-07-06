@@ -55,6 +55,7 @@ public sealed class ConsoleTextFormatter : IInvoiceFormatter
 
         var taxLabel = $"{invoice.Tax.Label} ({invoice.Tax.Rate:P0})";
         AppendAmountRow(sb, width, taxLabel, invoice.Tax.Amount);
+        AppendAmountRow(sb, width, invoice.Shipping.Label, invoice.Shipping.Amount);
 
         AppendBorder(sb, width, '╠', '═', '╣');
         AppendAmountRow(sb, width, "GRAND TOTAL", invoice.GrandTotal, emphasize: true);
@@ -68,6 +69,7 @@ public sealed class ConsoleTextFormatter : IInvoiceFormatter
         {
             CustomerType.Regular => "Regular",
             CustomerType.Premium => "Premium",
+            CustomerType.PremiumPlus => "Premium+",
             _ => type.ToString()
         };
 

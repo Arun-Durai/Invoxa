@@ -125,6 +125,7 @@ public class DiscountEngineTests
         Assert.Equal(40m, invoice.Discount.Amount);
         // Tax on discounted subtotal: (200 - 40) * 8% = 12.80
         Assert.Equal(12.80m, invoice.Tax.Amount);
-        Assert.Equal(172.80m, invoice.GrandTotal);
+        Assert.Equal(50m, invoice.Shipping.Amount);
+        Assert.Equal(222.80m, invoice.GrandTotal);
     }
 }

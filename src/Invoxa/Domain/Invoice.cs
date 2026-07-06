@@ -7,6 +7,7 @@ public sealed class Invoice
     public decimal Subtotal { get; }
     public AppliedDiscount? Discount { get; }
     public TaxLine Tax { get; }
+    public ShippingLine Shipping { get; }
     public decimal GrandTotal { get; }
     public DateTime GeneratedAt { get; }
 
@@ -16,6 +17,7 @@ public sealed class Invoice
         decimal subtotal,
         AppliedDiscount? discount,
         TaxLine tax,
+        ShippingLine shipping,
         decimal grandTotal,
         DateTime generatedAt)
     {
@@ -24,6 +26,7 @@ public sealed class Invoice
         Subtotal = subtotal;
         Discount = discount;
         Tax = tax;
+        Shipping = shipping;
         GrandTotal = grandTotal;
         GeneratedAt = generatedAt;
     }

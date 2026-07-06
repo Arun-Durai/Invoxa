@@ -79,7 +79,7 @@ When more than one discount policy applies to a cart, apply **only the single di
 |-------|-------|
 | **Type** | Story |
 | **Priority** | High |
-| **Status** | To Do |
+| **Status** | Done |
 | **Branch** | `feature/INVOXA-202-december-seasonal-discount` |
 | **Depends on** | INVOXA-201 |
 
@@ -89,14 +89,14 @@ Business wants a **20% discount on subtotal**, applicable **only during December
 
 ### Acceptance criteria
 
-- [ ] New class `DecemberSeasonalDiscount` (or equivalent) implements `IDiscountPolicy`
-- [ ] Applies when `PricingContext.AsOf` is in December (any year)
-- [ ] Does not apply in non-December months
-- [ ] Works for Regular and Premium customers
-- [ ] When Premium 10% and December 20% both apply, invoice shows only the higher discount (INVOXA-201)
-- [ ] Unit tests for December vs January
-- [ ] Registered in `Program.cs` composition root
-- [ ] Sample/demo cart or test date demonstrates December behavior
+- [x] New class `DecemberSeasonalDiscount` (or equivalent) implements `IDiscountPolicy`
+- [x] Applies when `PricingContext.AsOf` is in December (any year)
+- [x] Does not apply in non-December months
+- [x] Works for Regular and Premium customers
+- [x] When Premium 10% and December 20% both apply, invoice shows only the higher discount (INVOXA-201)
+- [x] Unit tests for December vs January
+- [x] Registered in `Program.cs` composition root
+- [x] Sample/demo cart or test date demonstrates December behavior
 
 ### Technical notes
 
@@ -111,7 +111,7 @@ Business wants a **20% discount on subtotal**, applicable **only during December
 |-------|-------|
 | **Type** | Story |
 | **Priority** | Medium |
-| **Status** | To Do |
+| **Status** | Done |
 | **Branch** | `feature/INVOXA-203-premium-plus-customer` |
 | **Depends on** | INVOXA-202 |
 
@@ -123,15 +123,15 @@ Introduce customer type **Premium+** with:
 
 ### Acceptance criteria
 
-- [ ] `CustomerType.PremiumPlus` added to domain
-- [ ] Flat ₹50 shipping fee applied to all orders by default (new line on invoice or fee component)
-- [ ] Premium+ customers have shipping fee waived (₹0 or not shown as charge)
-- [ ] Premium+ gets 15% subtotal discount via dedicated `IDiscountPolicy`
-- [ ] Invoice shows shipping line where applicable
-- [ ] Grand total = subtotal − discount + tax + shipping (confirm formula in tests)
-- [ ] Unit tests for Regular (pays shipping), Premium+ (free shipping + 15% off)
-- [ ] Console formatter displays shipping line
-- [ ] Sample Premium+ cart in `Program.cs`
+- [x] `CustomerType.PremiumPlus` added to domain
+- [x] Flat ₹50 shipping fee applied to all orders by default (new line on invoice or fee component)
+- [x] Premium+ customers have shipping fee waived (₹0 or not shown as charge)
+- [x] Premium+ gets 15% subtotal discount via dedicated `IDiscountPolicy`
+- [x] Invoice shows shipping line where applicable
+- [x] Grand total = subtotal − discount + tax + shipping (confirm formula in tests)
+- [x] Unit tests for Regular (pays shipping), Premium+ (free shipping + 15% off)
+- [x] Console formatter displays shipping line
+- [x] Sample Premium+ cart in `Program.cs`
 
 ### Technical notes
 
@@ -146,7 +146,7 @@ Introduce customer type **Premium+** with:
 |-------|-------|
 | **Type** | Story |
 | **Priority** | Medium |
-| **Status** | To Do |
+| **Status** | Done |
 | **Branch** | `feature/INVOXA-204-buy2-get1-free` |
 | **Depends on** | INVOXA-203 |
 
@@ -156,13 +156,13 @@ A **Buy 2 Get 1 Free** promotional discount on **specific items**, independent o
 
 ### Acceptance criteria
 
-- [ ] Qualifying items identifiable (e.g. by name or `productId` on `LineItem`)
-- [ ] New `IDiscountPolicy` implements B2G1 logic
-- [ ] Applies to Regular, Premium, and Premium+ customers
-- [ ] Correct discount for qty 2 (no discount), qty 3 (1 free), qty 6 (2 free), etc.
-- [ ] Competes with other discounts — only highest value applied (INVOXA-201)
-- [ ] Unit tests for qualifying vs non-qualifying items and quantity edge cases
-- [ ] Demo line item in `Program.cs` showing promotion
+- [x] Qualifying items identifiable (e.g. by name or `productId` on `LineItem`)
+- [x] New `IDiscountPolicy` implements B2G1 logic
+- [x] Applies to Regular, Premium, and Premium+ customers
+- [x] Correct discount for qty 2 (no discount), qty 3 (1 free), qty 6 (2 free), etc.
+- [x] Competes with other discounts — only highest value applied (INVOXA-201)
+- [x] Unit tests for qualifying vs non-qualifying items and quantity edge cases
+- [x] Demo line item in `Program.cs` showing promotion
 
 ### Technical notes
 
@@ -177,7 +177,7 @@ A **Buy 2 Get 1 Free** promotional discount on **specific items**, independent o
 |-------|-------|
 | **Type** | Story |
 | **Priority** | Medium |
-| **Status** | To Do |
+| **Status** | Done |
 | **Branch** | `feature/INVOXA-205-json-export` |
 | **Depends on** | INVOXA-204 |
 
@@ -187,12 +187,12 @@ Invoices must be exportable as **JSON** for an external accounting API, in addit
 
 ### Acceptance criteria
 
-- [ ] New `JsonInvoiceFormatter` implements `IInvoiceFormatter` (or separate `IInvoiceExporter` if cleaner)
-- [ ] JSON includes: customer, line items, subtotal, discount, tax, shipping (if present), grand total, generated timestamp
-- [ ] `InvoiceCalculator` unchanged — formatter only reads `Invoice`
-- [ ] Unit test asserts JSON structure / key fields (deserialize and assert)
-- [ ] `Program.cs` outputs JSON for at least one sample invoice (or writes beside console output)
-- [ ] No breaking change to existing console output
+- [x] New `JsonInvoiceFormatter` implements `IInvoiceFormatter` (or separate `IInvoiceExporter` if cleaner)
+- [x] JSON includes: customer, line items, subtotal, discount, tax, shipping (if present), grand total, generated timestamp
+- [x] `InvoiceCalculator` unchanged — formatter only reads `Invoice`
+- [x] Unit test asserts JSON structure / key fields (deserialize and assert)
+- [x] `Program.cs` outputs JSON for at least one sample invoice (or writes beside console output)
+- [x] No breaking change to existing console output
 
 ### Technical notes
 
@@ -203,11 +203,11 @@ Invoices must be exportable as **JSON** for an external accounting API, in addit
 
 ## Phase 2 definition of done
 
-- [ ] All five stories marked Done
-- [ ] All unit tests pass (`dotnet test`)
-- [ ] App runs and demonstrates new behavior (`dotnet run`)
-- [ ] README updated: Phase 2 status, new features documented
-- [ ] `phase-2` merged into `main` and pushed to GitHub
+- [x] All five stories marked Done
+- [x] All unit tests pass (`dotnet test`)
+- [x] App runs and demonstrates new behavior (`dotnet run`)
+- [x] README updated: Phase 2 status, new features documented
+- [x] `phase-2` merged into `main` and pushed to GitHub
 
 ---
 
