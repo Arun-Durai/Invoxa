@@ -20,6 +20,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Invoxa\Invoxa.csproj" />
+    <ProjectReference Include="..\..\src\Invoxa.App\Invoxa.App.csproj" />
   </ItemGroup>
 
 </Project>

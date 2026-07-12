@@ -10,6 +10,7 @@ public class JsonInvoiceFormatterTests
     public void Format_ProducesExpectedJsonStructure()
     {
         var invoice = new Invoice(
+            "INV-2026-00007",
             new Customer("Jane Doe", CustomerType.PremiumPlus),
             [new InvoiceLine("Test Item", 100m, 2, 200m)],
             subtotal: 200m,
@@ -23,6 +24,7 @@ public class JsonInvoiceFormatterTests
         using var document = JsonDocument.Parse(json);
         var root = document.RootElement;
 
+        Assert.Equal("INV-2026-00007", root.GetProperty("invoiceNumber").GetString());
         Assert.Equal("Jane Doe", root.GetProperty("customer").GetProperty("name").GetString());
         Assert.Equal("PremiumPlus", root.GetProperty("customer").GetProperty("type").GetString());
         Assert.Equal(200m, root.GetProperty("subtotal").GetDecimal());

@@ -9,6 +9,7 @@ public class ConsoleTextFormatterTests
     public void Format_IncludesKeyInvoiceSections()
     {
         var invoice = new Invoice(
+            "INV-2026-00001",
             new Customer("Jane Doe", CustomerType.Premium),
             [new InvoiceLine("Test Item", 100m, 2, 200m)],
             subtotal: 200m,
@@ -21,6 +22,7 @@ public class ConsoleTextFormatterTests
         var output = new ConsoleTextFormatter().Format(invoice);
 
         Assert.Contains("INVOXA", output);
+        Assert.Contains("INV-2026-00001", output);
         Assert.Contains("Jane Doe", output);
         Assert.Contains("Test Item", output);
         Assert.Contains("Subtotal", output);

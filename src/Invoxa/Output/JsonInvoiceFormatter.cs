@@ -17,6 +17,7 @@ public sealed class JsonInvoiceFormatter : IInvoiceFormatter
     {
         var payload = new JsonInvoiceDocument
         {
+            InvoiceNumber = invoice.InvoiceNumber,
             Customer = new JsonCustomer
             {
                 Name = invoice.Customer.Name,
@@ -60,6 +61,7 @@ public sealed class JsonInvoiceFormatter : IInvoiceFormatter
 
     private sealed class JsonInvoiceDocument
     {
+        public string InvoiceNumber { get; set; } = "";
         public JsonCustomer Customer { get; set; } = null!;
         public List<JsonLineItem> LineItems { get; set; } = [];
         public decimal Subtotal { get; set; }

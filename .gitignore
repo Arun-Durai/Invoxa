@@ -74,6 +74,9 @@ secrets.json
 ## Internal project docs (local only — not for public repo)
 docs/
 
+## Runtime logs
+logs/
+
 ## JetBrains Rider
 *.sln.iml
 

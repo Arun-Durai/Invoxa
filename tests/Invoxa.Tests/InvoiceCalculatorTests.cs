@@ -9,11 +9,6 @@ public class InvoiceCalculatorTests
 {
     private static readonly DateTime FixedDate = new(2026, 7, 3, 10, 0, 0);
 
-    private static InvoiceCalculator CreateCalculator() =>
-        new(
-            new DiscountEngine([new PremiumCustomerDiscount()]),
-            new FlatRateTaxPolicy(0.08m));
-
     [Fact]
     public void RegularCustomer_NoDiscount_TaxOnSubtotal_PaysShipping()
     {
@@ -21,7 +16,7 @@ public class InvoiceCalculatorTests
             new Customer("Test User", CustomerType.Regular),
             [new LineItem("Widget", 100m, 2)]);
 
-        var invoice = CreateCalculator().Calculate(cart, FixedDate);
+        var invoice = TestFactory.CreateCalculator().Calculate(cart, FixedDate);
 
         Assert.Equal(200m, invoice.Subtotal);
         Assert.Null(invoice.Discount);
@@ -37,7 +32,7 @@ public class InvoiceCalculatorTests
             new Customer("Premium User", CustomerType.Premium),
             [new LineItem("Widget", 100m, 2)]);
 
-        var invoice = CreateCalculator().Calculate(cart, FixedDate);
+        var invoice = TestFactory.CreateCalculator().Calculate(cart, FixedDate);
 
         Assert.Equal(200m, invoice.Subtotal);
         Assert.NotNull(invoice.Discount);
@@ -57,7 +52,7 @@ public class InvoiceCalculatorTests
                 new LineItem("Item B", 30m, 3)
             ]);
 
-        var invoice = CreateCalculator().Calculate(cart, FixedDate);
+        var invoice = TestFactory.CreateCalculator().Calculate(cart, FixedDate);
 
         Assert.Equal(190m, invoice.Subtotal);
         Assert.Equal(2, invoice.Lines.Count);

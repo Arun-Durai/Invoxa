@@ -105,13 +105,11 @@ public class DiscountEngineTests
     [Fact]
     public void InvoiceCalculator_WhenCompetingDiscounts_ExposesOnlyWinningDiscountOnInvoice()
     {
-        var calculator = new InvoiceCalculator(
-            new DiscountEngine(
-            [
-                new PremiumCustomerDiscount(),
-                new PercentageTestDiscount("test-20-percent", "Test 20% off", 0.20m)
-            ]),
-            new FlatRateTaxPolicy(0.08m));
+        var calculator = TestFactory.CreateCalculator(
+        [
+            new PremiumCustomerDiscount(),
+            new PercentageTestDiscount("test-20-percent", "Test 20% off", 0.20m)
+        ]);
 
         var cart = new Cart(
             new Customer("Premium User", CustomerType.Premium),

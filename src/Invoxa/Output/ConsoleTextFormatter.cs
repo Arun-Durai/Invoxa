@@ -18,6 +18,7 @@ public sealed class ConsoleTextFormatter : IInvoiceFormatter
         AppendCentered(sb, width, "Store Billing & Invoice");
         AppendBorder(sb, width, '╠', '═', '╣');
 
+        AppendRow(sb, width, "Invoice", invoice.InvoiceNumber);
         AppendRow(sb, width, "Customer", invoice.Customer.Name);
         AppendRow(sb, width, "Type", FormatCustomerType(invoice.Customer.Type));
         AppendRow(sb, width, "Date", invoice.GeneratedAt.ToString("dd MMM yyyy, hh:mm tt"));

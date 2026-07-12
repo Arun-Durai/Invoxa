@@ -54,13 +54,11 @@ public class Buy2Get1FreeDiscountTests
     [Fact]
     public void InvoiceCalculator_B2G1CompetesWithOtherDiscounts_OnlyHighestApplied()
     {
-        var calculator = new InvoiceCalculator(
-            new DiscountEngine(
-            [
-                new PremiumCustomerDiscount(),
-                new Buy2Get1FreeDiscount([PromoProductId])
-            ]),
-            new FlatRateTaxPolicy(0.08m));
+        var calculator = TestFactory.CreateCalculator(
+        [
+            new PremiumCustomerDiscount(),
+            new Buy2Get1FreeDiscount([PromoProductId])
+        ]);
 
         var cart = new Cart(
             new Customer("Premium User", CustomerType.Premium),

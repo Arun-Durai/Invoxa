@@ -1,7 +1,6 @@
 using Invoxa.Discounts;
 using Invoxa.Domain;
 using Invoxa.Pricing;
-using Invoxa.Tax;
 
 namespace Invoxa.Tests;
 
@@ -10,14 +9,12 @@ public class PremiumPlusAndShippingTests
     private static readonly DateTime FixedDate = new(2026, 7, 3, 10, 0, 0);
 
     private static InvoiceCalculator CreateCalculator() =>
-        new(
-            new DiscountEngine(
-            [
-                new PremiumCustomerDiscount(),
-                new PremiumPlusCustomerDiscount(),
-                new DecemberSeasonalDiscount()
-            ]),
-            new FlatRateTaxPolicy(0.08m));
+        TestFactory.CreateCalculator(
+        [
+            new PremiumCustomerDiscount(),
+            new PremiumPlusCustomerDiscount(),
+            new DecemberSeasonalDiscount()
+        ]);
 
     [Fact]
     public void RegularCustomer_PaysFlatShippingFee()

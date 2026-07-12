@@ -2,6 +2,7 @@ namespace Invoxa.Domain;
 
 public sealed class Invoice
 {
+    public string InvoiceNumber { get; }
     public Customer Customer { get; }
     public IReadOnlyList<InvoiceLine> Lines { get; }
     public decimal Subtotal { get; }
@@ -12,6 +13,7 @@ public sealed class Invoice
     public DateTime GeneratedAt { get; }
 
     public Invoice(
+        string invoiceNumber,
         Customer customer,
         IReadOnlyList<InvoiceLine> lines,
         decimal subtotal,
@@ -21,6 +23,7 @@ public sealed class Invoice
         decimal grandTotal,
         DateTime generatedAt)
     {
+        InvoiceNumber = invoiceNumber;
         Customer = customer;
         Lines = lines;
         Subtotal = subtotal;
@@ -30,4 +33,16 @@ public sealed class Invoice
         GrandTotal = grandTotal;
         GeneratedAt = generatedAt;
     }
+
+    public Invoice WithInvoiceNumber(string invoiceNumber) =>
+        new(
+            invoiceNumber,
+            Customer,
+            Lines,
+            Subtotal,
+            Discount,
+            Tax,
+            Shipping,
+            GrandTotal,
+            GeneratedAt);
 }

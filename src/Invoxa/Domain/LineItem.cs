@@ -6,9 +6,15 @@ public sealed class LineItem
     public decimal UnitPrice { get; }
     public int Quantity { get; }
     public string? ProductId { get; }
+    public ProductCategory Category { get; }
     public decimal LineTotal => Money.Round(UnitPrice * Quantity);
 
-    public LineItem(string name, decimal unitPrice, int quantity, string? productId = null)
+    public LineItem(
+        string name,
+        decimal unitPrice,
+        int quantity,
+        string? productId = null,
+        ProductCategory category = ProductCategory.General)
     {
         if (string.IsNullOrWhiteSpace(name))
         {
@@ -35,5 +41,6 @@ public sealed class LineItem
         UnitPrice = unitPrice;
         Quantity = quantity;
         ProductId = productId;
+        Category = category;
     }
 }

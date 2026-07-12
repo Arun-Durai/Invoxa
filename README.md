@@ -8,9 +8,9 @@ Built to practice extensible OOP: pluggable discount/tax policies, layered desig
 
 ## What it does
 
-1. Build a cart for a customer with one or more line items.
-2. Calculate **subtotal** → apply the **best single discount** (no stacking) → **tax on discounted amount** → **shipping** → **grand total**.
-3. Render the invoice via console text or JSON.
+1. Load demo scenarios from `appsettings.json` (or build carts in code).
+2. Calculate **subtotal** → apply the **best single discount** (no stacking) → **category tax on discounted amount** → **shipping** → **grand total**.
+3. Assign an invoice number, write an audit entry, and render via console text or JSON.
 
 **Customer types**
 
@@ -24,7 +24,10 @@ Built to practice extensible OOP: pluggable discount/tax policies, layered desig
 
 - December seasonal: 20% off subtotal (any customer, if best)
 - Buy 2 Get 1 Free on qualifying `productId` items
+- Category tax: electronics / general 8%, groceries 2% (proportional after discount)
 - Domain validation rejects invalid carts, customers, and line items
+- Sequential invoice numbers (`INV-YYYY-#####`, in-memory per process)
+- Audit log to console and `logs/audit.log`
 
 ---
 
@@ -48,7 +51,9 @@ dotnet test
 dotnet run --project src/Invoxa.App/Invoxa.App.csproj
 ```
 
-The console app prints sample invoices (and a JSON sample for the first scenario).
+Edit demo data without recompiling: `src/Invoxa.App/appsettings.json` (copied to the output folder on build).
+
+CI runs `dotnet test` on pushes and pull requests to `main` (see `.github/workflows/ci.yml`).
 
 ---
 
@@ -57,10 +62,11 @@ The console app prints sample invoices (and a JSON sample for the first scenario
 ```
 Invoxa/
 ├── src/
-│   ├── Invoxa/              # Core library (domain, pricing, discounts, tax, output)
-│   └── Invoxa.App/          # Console composition root + demo data
+│   ├── Invoxa/              # Core library (domain, pricing, policies, output, audit)
+│   └── Invoxa.App/          # Console app + appsettings.json
 ├── tests/
 │   └── Invoxa.Tests/        # Unit tests
+├── .github/workflows/       # CI
 ├── Invoxa.slnx
 └── README.md
 ```
@@ -68,12 +74,12 @@ Invoxa/
 ### Calculation flow
 
 ```
-Cart
+Config / Cart
   → Subtotal
   → DiscountEngine (highest applicable discount only)
-  → Tax on (subtotal − discount)
-  → Shipping
-  → Invoice
+  → Category tax on (subtotal − discount)
+  → Shipping policy
+  → Invoice (+ number + audit)
   → ConsoleTextFormatter / JsonInvoiceFormatter
 ```
 
@@ -84,20 +90,21 @@ Cart
 | Layer | Responsibility |
 |-------|----------------|
 | **Domain** | `Customer`, `Cart`, `LineItem`, `Invoice`, validation |
-| **Pricing** | `InvoiceCalculator`, subtotal, shipping |
-| **Policies** | `IDiscountPolicy`, `ITaxPolicy` |
+| **Pricing** | `InvoiceCalculator`, subtotal |
+| **Policies** | `IDiscountPolicy`, `ITaxPolicy`, `IShippingPolicy` |
+| **Cross-cutting** | `IAuditLogger`, `IInvoiceNumberGenerator` |
 | **Output** | `IInvoiceFormatter` implementations |
-| **App** | Wires dependencies in `Program.cs` |
+| **App** | Config load + wiring in `Program.cs` |
 
-Design goals: new discounts without editing old ones; new output formats without touching calculation; calculator unit-testable without I/O.
+Design goals: new discounts/shipping/tax rules without editing old ones; new output formats without touching calculation; calculator unit-testable without I/O.
 
-**Patterns in use:** Strategy (discount/tax), staged pricing pipeline, composition root, constructor injection, SOLID-friendly seams (especially Open/Closed).
+**Patterns in use:** Strategy, staged pricing pipeline, composition root, constructor injection, SOLID-friendly seams (especially Open/Closed).
 
 ---
 
 ## Git ignore
 
-Build output (`bin/`, `obj/`), IDE folders, test results, and local secrets are ignored. Only source, project files, and this README are intended for the public repo.
+Build output (`bin/`, `obj/`), IDE folders, test results, runtime logs, and local secrets are ignored. Source, project files, CI workflow, and this README are intended for the public repo.
 
 ---
 

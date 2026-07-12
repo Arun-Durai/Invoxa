@@ -1,12 +1,13 @@
 using Invoxa.Domain;
+using Invoxa.Pricing;
 
-namespace Invoxa.Pricing;
+namespace Invoxa.Shipping;
 
-public static class ShippingCalculator
+public sealed class FlatRateShippingPolicy : IShippingPolicy
 {
     public const decimal FlatRate = 50m;
 
-    public static ShippingLine Calculate(Customer customer)
+    public ShippingLine Calculate(Customer customer, PricingContext context)
     {
         if (customer.Type == CustomerType.PremiumPlus)
             return new ShippingLine("Free shipping", 0m);

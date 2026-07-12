@@ -1,77 +1,51 @@
 ﻿using Invoxa;
+using Invoxa.App.Configuration;
+using Invoxa.Audit;
 using Invoxa.Discounts;
-using Invoxa.Domain;
+using Invoxa.Numbering;
 using Invoxa.Output;
 using Invoxa.Pricing;
+using Invoxa.Shipping;
 using Invoxa.Tax;
 
-// Hardcoded sample carts for Phase 2 demo.
-// Later: replace with config-file loading (e.g. appsettings.json) without changing calculation logic.
-var b2g1ProductId = "PROMO-B2G1";
+var configPath = Path.Combine(AppContext.BaseDirectory, "appsettings.json");
+var loader = new ScenarioConfigLoader();
+var settings = loader.Load(configPath);
+var scenarios = loader.ToScenarios(settings);
 
-var sampleScenarios = new (Cart Cart, DateTime BillingDate, string Title)[]
-{
-    (
-        new Cart(
-            new Customer("Jack Sparrow", CustomerType.Regular),
-            [
-                new LineItem("Wireless Mouse", 799m, 1),
-                new LineItem("USB-C Hub", 1499m, 1),
-                new LineItem("Notebook (A5)", 120m, 3)
-            ]),
-        new DateTime(2026, 12, 20, 10, 0, 0),
-        "Regular customer — December seasonal discount"),
-    (
-        new Cart(
-            new Customer("Elizabeth Swann", CustomerType.Premium),
-            [
-                new LineItem("Mechanical Keyboard", 4599m, 1),
-                new LineItem("Desk Lamp", 899m, 2),
-                new LineItem("HDMI Cable", 349m, 2)
-            ]),
-        new DateTime(2026, 12, 20, 10, 0, 0),
-        "Premium customer — December beats Premium 10%"),
-    (
-        new Cart(
-            new Customer("Hector Barbossa", CustomerType.PremiumPlus),
-            [
-                new LineItem("Gaming Headset", 2999m, 1),
-                new LineItem("Mouse Pad", 499m, 2)
-            ]),
-        new DateTime(2026, 7, 15, 10, 0, 0),
-        "Premium+ customer — 15% off and free shipping"),
-    (
-        new Cart(
-            new Customer("Will Turner", CustomerType.Regular),
-            [
-                new LineItem("Coffee Mug", 300m, 3, b2g1ProductId),
-                new LineItem("Screen Cleaner", 150m, 1)
-            ]),
-        new DateTime(2026, 7, 15, 10, 0, 0),
-        "Buy 2 Get 1 Free on qualifying item")
-};
+var promoIds = settings.PromoProductIds.Count > 0
+    ? settings.PromoProductIds
+    : ["PROMO-B2G1"];
 
 var discountPolicies = new IDiscountPolicy[]
 {
     new PremiumCustomerDiscount(),
     new PremiumPlusCustomerDiscount(),
     new DecemberSeasonalDiscount(),
-    new Buy2Get1FreeDiscount([b2g1ProductId])
+    new Buy2Get1FreeDiscount(promoIds)
 };
 
 var discountEngine = new DiscountEngine(discountPolicies);
-var taxPolicy = new FlatRateTaxPolicy(0.08m);
-var calculator = new InvoiceCalculator(discountEngine, taxPolicy);
-var billingService = new BillingService(calculator);
+var taxPolicy = new CategoryTaxPolicy();
+var shippingPolicy = new FlatRateShippingPolicy();
+var calculator = new InvoiceCalculator(discountEngine, taxPolicy, shippingPolicy);
+var billingService = new BillingService(
+    calculator,
+    new SequentialInvoiceNumberGenerator(),
+    new CompositeAuditLogger(
+        new ConsoleAuditLogger(),
+        new FileAuditLogger(Path.Combine(AppContext.BaseDirectory, "logs", "audit.log"))));
+
 var consoleFormatter = new ConsoleTextFormatter();
 var jsonFormatter = new JsonInvoiceFormatter();
 
 Console.WriteLine();
-Console.WriteLine("  Invoxa — Phase 2 billing demo");
-Console.WriteLine("  ─────────────────────────────");
+Console.WriteLine("  Invoxa — billing demo (config-driven)");
+Console.WriteLine("  ────────────────────────────────────");
+Console.WriteLine($"  Config: {configPath}");
 Console.WriteLine();
 
-for (var i = 0; i < sampleScenarios.Length; i++)
+for (var i = 0; i < scenarios.Count; i++)
 {
     if (i > 0)
     {
@@ -80,7 +54,7 @@ for (var i = 0; i < sampleScenarios.Length; i++)
         Console.WriteLine();
     }
 
-    var (cart, billingDate, title) = sampleScenarios[i];
+    var (cart, billingDate, title) = scenarios[i];
     var invoice = billingService.GenerateInvoice(cart, billingDate);
 
     Console.WriteLine($"  {title}");

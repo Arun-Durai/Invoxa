@@ -27,6 +27,13 @@ public class DecemberSeasonalDiscountTests
             new DecemberSeasonalDiscount()
         ]);
 
+    private static InvoiceCalculator CreateCalculator() =>
+        TestFactory.CreateCalculator(
+        [
+            new PremiumCustomerDiscount(),
+            new DecemberSeasonalDiscount()
+        ]);
+
     [Fact]
     public void IsApplicable_InDecember_ReturnsTrue()
     {
@@ -87,15 +94,11 @@ public class DecemberSeasonalDiscountTests
     [Fact]
     public void InvoiceCalculator_DecemberSeasonal_AppliesOnInvoice()
     {
-        var calculator = new InvoiceCalculator(
-            CreateEngine(),
-            new FlatRateTaxPolicy(0.08m));
-
         var cart = new Cart(
             new Customer("Regular User", CustomerType.Regular),
             [new LineItem("Widget", 100m, 2)]);
 
-        var invoice = calculator.Calculate(cart, DecemberDate);
+        var invoice = CreateCalculator().Calculate(cart, DecemberDate);
 
         Assert.Equal(200m, invoice.Subtotal);
         Assert.NotNull(invoice.Discount);
