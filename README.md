@@ -108,6 +108,3 @@ Build output (`bin/`, `obj/`), IDE folders, test results, runtime logs, and loca
 
 ---
 
-## License
-
-Private learning project — add a license if you open-source it later.
