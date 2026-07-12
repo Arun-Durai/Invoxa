@@ -71,6 +71,9 @@ secrets.json
 .env
 .env.*
 
+## Internal project docs (local only — not for public repo)
+docs/
+
 ## JetBrains Rider
 *.sln.iml
 
