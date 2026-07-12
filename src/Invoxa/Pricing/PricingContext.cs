@@ -9,10 +9,7 @@ public sealed class PricingContext
     public decimal Subtotal { get; }
     public DateTime AsOf { get; }
 
-    public PricingContext(
-        Customer customer,
-        IReadOnlyList<LineItem> lineItems,
-        decimal subtotal,
+    public PricingContext(Customer customer,IReadOnlyList<LineItem> lineItems,decimal subtotal,
         DateTime asOf)
     {
         Customer = customer;

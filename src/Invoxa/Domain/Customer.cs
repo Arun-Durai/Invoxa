@@ -7,6 +7,13 @@ public sealed class Customer
 
     public Customer(string name, CustomerType type)
     {
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException(
+                "Name cannot be null, empty, or whitespace.",
+                nameof(name));
+        }
+        
         Name = name;
         Type = type;
     }
